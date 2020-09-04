@@ -17,20 +17,34 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello");
+		System.out.println("Hello");	
+
+	}
+	
+	public static void createIndex() {
 		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));
 		
 		String INDEX_NAME="movie_rest";
 		String TYPE_NAME="_doc";
 
 		/* JSON을 만들어준다.			  
-		  "mappings":{		    
-		    "properties":{
-		      "movieCd": { "type" : "integer"},
-		      "movieNm": { "type" : "text"},
-		      "movieNmEn": { "type" : "text"}		      
-		    }		    
-		  }		
+		  {
+		  "mappings": {
+		    "_doc": {
+		      "properties": {
+		        "movieCd": {
+		          "type": "keyword",
+		          "store": true
+		        },
+		        "movieNm": {
+		          "type": "text",
+		          "store": true,
+		          "index_options": "docs"
+		        }
+		      }
+		    }
+		  }
+		}	
 		*/
 		XContentBuilder indexBuilder = null;
 		try {
@@ -79,7 +93,6 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 }
