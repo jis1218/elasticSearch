@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.alias.Alias;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -18,6 +20,8 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Hello");	
+		//deleteIndex();
+		createIndex();
 
 	}
 	
@@ -93,6 +97,24 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void deleteIndex() {
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));
+
+		String INDEX_NAME = "movie_rest";
+		
+		DeleteIndexRequest request = new DeleteIndexRequest(INDEX_NAME);
+		
+		try {
+			AcknowledgedResponse deleteIndexResponse = client.indices().delete(request, RequestOptions.DEFAULT);
+			boolean acknowledged = deleteIndexResponse.isAcknowledged();
+			if(acknowledged) System.out.println("deleted");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
